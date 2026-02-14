@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abiya's birthday</title>
+    <style>
+        /* Palet Warna: FAE6E7, F7D1D8, F4BBC9, F6A6BB */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #FAE6E7 0%, #F7D1D8 50%, #F4BBC9 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Background dari file lokal bgb.jpg */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('bgb.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 40px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(246, 166, 187, 0.3);
+            border: 2px solid #F6A6BB;
+        }
+
+        /* Header dengan foto */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #F6A6BB;
+            text-shadow: 3px 3px 0 #FAE6E7, 5px 5px 0 #F4BBC9;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            word-break: break-word;
+        }
+
+        .foto-ulang {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 8px solid #F7D1D8;
+            box-shadow: 0 10px 25px rgba(246, 166, 187, 0.5);
+            margin: 0 auto 25px;
+            display: block;
+            background-color: #FAE6E7;
+        }
+
+        /* Form section (langsung ditampilkan) */
+        .form-section {
+            background-color: rgba(250, 230, 231, 0.7);
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px dashed #F6A6BB;
+            display: block; /* LANGSUNG DITAMPILIN */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #F6A6BB;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border: 3px solid #F7D1D8;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: white;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #F6A6BB;
+            box-shadow: 0 0 0 4px #FAE6E7;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            background-color: #F6A6BB;
+            color: white;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.3rem;
+            border-radius: 60px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #FAE6E7;
+        }
+
+        .btn-submit:hover {
+            background-color: #F4BBC9;
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(246, 166, 187, 0.6);
+        }
+
+        .message-box {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 30px;
+            border: 2px solid #F6A6BB;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 30px;
+            border: 2px solid #F6A6BB;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #F6A6BB;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Abiya's Birthday</h1>
+            <img src="abiya.jpg" alt="Abiya" class="foto-ulang" onerror="this.src='https://via.placeholder.com/200x200/F6A6BB/FFFFFF?text=Abiya'">
+        </div>
+
+        <!-- Form Kirim Ucapan (LANGSUNG KELIATAN) -->
+        <div class="form-section">
+            <form id="wishForm">
+                <div class="form-group">
+                    <label for="nama">Your name</label>
+                    <input type="text" id="nama" placeholder="Masukkan nama kamu..." required>
+                </div>
+                <div class="form-group">
+                    <label for="pesan">Your wish for her</label>
+                    <textarea id="pesan" placeholder="Tulis ucapan di sini..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Kirim Ucapan 💌</button>
+            </form>
+            <div id="messageContainer" class="message-box"></div>
+        </div>
+
+        <footer>
+            send your best wish for her ♡
+        </footer>
+    </div>
+
+    <script>
+        // Konfigurasi Supabase
+        const SUPABASE_URL = 'https://inmpqlryrlhvksetiptb.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_8-qAiDIojm3Qduo3JL0BhQ_OCunCpAW';
+        
+        // Elemen DOM
+        const wishForm = document.getElementById('wishForm');
+        const messageContainer = document.getElementById('messageContainer');
+
+        // Fungsi untuk mengirim ucapan baru
+        async function submitWish(event) {
+            event.preventDefault();
+            
+            const nama = document.getElementById('nama').value.trim();
+            const pesan = document.getElementById('pesan').value.trim();
+
+            if (!nama || !pesan) {
+                showMessage('Nama dan pesan harus diisi!', 'error');
+                return;
+            }
+
+            // Nonaktifkan tombol submit sementara
+            const submitBtn = event.target.querySelector('.btn-submit');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Mengirim...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/ucapan`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({
+                        nama: nama,
+                        pesan: pesan
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                }
+
+                // Reset form
+                document.getElementById('nama').value = '';
+                document.getElementById('pesan').value = '';
+                
+                showMessage('Ucapanmu berhasil dikirim! Thank youu', 'success');
+                
+                // Setelah 3 detik, hapus pesan
+                setTimeout(() => {
+                    messageContainer.innerHTML = '';
+                }, 3000);
+
+            } catch (error) {
+                console.error('Error submitting wish:', error);
+                showMessage(`Gagal mengirim ucapan: ${error.message}`, 'error');
+            } finally {
+                // Aktifkan kembali tombol submit
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Helper: tampilkan pesan
+        function showMessage(message, type) {
+            const className = type === 'error' ? 'error-message' : 'success-message';
+            messageContainer.innerHTML = `<div class="${className}">${message}</div>`;
+        }
+
+        // Event listener form submit
+        wishForm.addEventListener('submit', submitWish);
+    </script>
+</body>
+</html>
